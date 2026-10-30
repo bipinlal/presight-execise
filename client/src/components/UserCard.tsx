@@ -4,10 +4,20 @@ import { Avatar } from './Avatar';
 
 const MAX_HOBBIES = 2;
 
-export const UserCard = memo(function UserCard({ user }: { user: User }) {
+export const UserCard = memo(function UserCard({
+  user,
+  selectedHobbies,
+}: {
+  user: User;
+  selectedHobbies: string[];
+}) {
   const name = `${user.first_name} ${user.last_name}`;
-  const shown = user.hobbies.slice(0, MAX_HOBBIES);
-  const extra = user.hobbies.length - shown.length;
+  // Selected hobbies come first so filter matches aren't hidden behind "+n".
+  const hobbies = user.hobbies.toSorted(
+    (a, b) => Number(selectedHobbies.includes(b)) - Number(selectedHobbies.includes(a)),
+  );
+  const shown = hobbies.slice(0, MAX_HOBBIES);
+  const extra = hobbies.length - shown.length;
 
   return (
     <article className="flex h-full gap-4 rounded-xl border border-slate-200 bg-white p-4 shadow-sm transition hover:shadow-md">
@@ -35,7 +45,7 @@ export const UserCard = memo(function UserCard({ user }: { user: User }) {
           {extra > 0 && (
             <span
               className="rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-medium text-slate-600"
-              title={user.hobbies.slice(MAX_HOBBIES).join(', ')}
+              title={hobbies.slice(MAX_HOBBIES).join(', ')}
             >
               +{extra}
             </span>
