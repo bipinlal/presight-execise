@@ -28,4 +28,7 @@ yarn-debug.log*
 yarn-error.log*
 
 .parcel-cache
-.idea/
+.idea
+
+server/data/*.db*
+*.tsbuildinfo
