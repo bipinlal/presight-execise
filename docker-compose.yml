@@ -1,0 +1,15 @@
+services:
+  app:
+    build: .
+    image: presight-user-directory
+    ports:
+      - '4000:4000'
+    environment:
+      PORT: 4000
+      DATABASE_PATH: /app/data/users.db
+    volumes:
+      - db-data:/app/data
+    restart: unless-stopped
+
+volumes:
+  db-data:
