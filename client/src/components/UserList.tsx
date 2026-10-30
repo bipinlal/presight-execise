@@ -117,7 +117,7 @@ export function UserList({
                   total={total}
                 />
               ) : (
-                <UserCard user={users[item.index]} />
+                <UserCard user={users[item.index]} selectedHobbies={state.hobbies} />
               )}
             </div>
           );
