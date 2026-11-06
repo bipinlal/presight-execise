@@ -2,6 +2,9 @@ export const SORT_FIELDS = ['first_name', 'last_name', 'age', 'nationality'] as 
 export type SortField = (typeof SORT_FIELDS)[number];
 export type SortDir = 'asc' | 'desc';
 
+/** Names only: letters (any script), spaces, hyphens and apostrophes. */
+export const sanitizeSearch = (v: string) => v.replace(/[^\p{L}\p{M}\s'’-]/gu, '');
+
 export interface User {
   id: number;
   avatar: string;
