@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useDebouncedCallback } from '../hooks/useDebouncedCallback';
+import { sanitizeSearch } from '../types';
 
 export function SearchBar({ value, onChange }: { value: string; onChange: (v: string) => void }) {
   const [text, setText] = useState(value);
@@ -36,10 +37,13 @@ export function SearchBar({ value, onChange }: { value: string; onChange: (v: st
         type="search"
         value={text}
         onChange={(e) => {
-          setText(e.target.value);
-          commit(e.target.value);
+          const next = sanitizeSearch(e.target.value);
+          if (next === text) return;
+          setText(next);
+          commit(next);
         }}
         placeholder="Search by first or last name…"
+        title="Letters, spaces, hyphens and apostrophes only"
         aria-label="Search by first or last name"
         maxLength={100}
         className="w-full rounded-lg border border-slate-300 bg-white py-2 pr-9 pl-9 text-sm shadow-sm placeholder:text-slate-400 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none [&::-webkit-search-cancel-button]:hidden"

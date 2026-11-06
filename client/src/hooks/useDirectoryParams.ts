@@ -1,6 +1,6 @@
 import { useCallback, useMemo } from 'react';
 import { useSearchParams } from 'react-router';
-import { SORT_FIELDS, type DirectoryState, type SortDir, type SortField } from '../types';
+import { SORT_FIELDS, sanitizeSearch, type DirectoryState, type SortDir, type SortField } from '../types';
 
 const DEFAULTS = { sortBy: 'first_name' as SortField, sortDir: 'asc' as SortDir };
 
@@ -54,7 +54,7 @@ export function useDirectoryParams() {
 function readState(p: URLSearchParams): DirectoryState {
   const sort = p.get('sort');
   return {
-    search: p.get('q') ?? '',
+    search: sanitizeSearch(p.get('q') ?? ''),
     nationalities: p.getAll('nationality'),
     hobbies: p.getAll('hobby'),
     sortBy: SORT_FIELDS.includes(sort as SortField) ? (sort as SortField) : DEFAULTS.sortBy,
